@@ -1,5 +1,5 @@
-\documentclass[11pt]{amsart}
-\usepackage{float}
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{algorithm}
@@ -16,25 +16,27 @@
 \newtheorem{remark}[theorem]{Remark}
 
 \title{Computing Periodic Billiard Orbits in $L^p$ Balls via Newton's Method and Smale's $\alpha$-Criterion}
-\author{Igor Rivin}\thanks{with much help from Claude Code}
-\address{Mathematics Department, Temple University}
-\email{rivin@temple.edu}
+\author{Generated with Claude Code}
 \date{\today}
-\subjclass{
-37D50, 37M21, 65P10, 70H12, 49M15
-}
-\keywords{
-Periodic billiard orbits, $L^p$ balls, Newton's method, Smale's $\alpha$-criterion, Morse signature, rotation number, variational methods, computational dynamics}
 
 \begin{document}
+\maketitle
+
+\begin{keywords}
+Periodic billiard orbits, $L^p$ balls, Newton's method, Smale's $\alpha$-criterion, Morse signature, rotation number, variational methods, computational dynamics
+\end{keywords}
+
+\begin{AMS}
+37D50, 37M21, 65P10, 70H12, 49M15
+\end{AMS}
+
 \begin{abstract}
 We present a computational method for finding and verifying periodic billiard orbits in $L^p$ balls ($p > 2$) using Newton's method applied to a variational formulation. The orbits are verified using Smale's $\alpha$-criterion, which provides a rigorous certificate of existence. We implement efficient batched computations using JAX and present systematic results for various values of $p$ and numbers of bounces $N$. Our experiments reveal interesting patterns in the critical point structure, including a predominance of specific Morse signatures and consistent rotation numbers that depend on the parity and primality of $N$. Notably, our method systematically finds many more than the two periodic orbits per rotation number guaranteed by Birkhoff's theorem—for instance, finding over 100 certified orbits with $N=5$ bounces in the $L^3$ ball, demonstrating the computational power of our variational approach.
 \end{abstract}
-\maketitle
 
 \section{Introduction}
 
-The study of billiard dynamics in convex domains has a rich history connecting dynamical systems, symplectic geometry, and variational methods \cite{birkhoff1927dynamical,tabachnikov2005geometry}. For the $L^p$ ball defined by
+The study of billiard dynamics in convex domains has a rich history connecting dynamical systems, symplectic geometry, and variational methods. For the $L^p$ ball defined by
 \[
 \mathcal{B}_p = \{(x,y) \in \mathbb{R}^2 : |x|^p + |y|^p \leq 1\},
 \]
@@ -77,7 +79,7 @@ The critical point equation is $\nabla L = 0$, which we solve using Newton's met
 \]
 where $H$ is the Hessian of $L$.
 
-\subsection{Smale's \texorpdfstring{$\alpha$}{alpha}-Criterion}
+\subsection{Smale's $\alpha$-Criterion}
 
 To verify that a numerical critical point corresponds to a genuine periodic orbit, we use Smale's $\alpha$-criterion. Define:
 \begin{align}
@@ -86,7 +88,7 @@ To verify that a numerical critical point corresponds to a genuine periodic orbi
 \alpha &= \beta \cdot \gamma
 \end{align}
 
-\begin{theorem}[Smale\cite{smale1980mathematics}]
+\begin{theorem}[Smale]
 If $\alpha < \sqrt{3} - 1 \approx 0.732$, then Newton's method converges quadratically to a unique critical point near the current iterate.
 \end{theorem}
 
@@ -171,7 +173,7 @@ $(2,3,0)$ & 1 & 10.131 & 0.000 & $2/5$ \\
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.8\textwidth]{grid_orbits.png}
-\caption{A selection of periodic billiard orbits with \texorpdfstring{$N=5$}{N=5} bounces in the \texorpdfstring{$L^3$}{L3} ball, showing various rotation numbers (\texorpdfstring{$1/5$}{1/5}, \texorpdfstring{$2/5$}{2/5}, \texorpdfstring{$3/5$}{3/5}, \texorpdfstring{$4/5$}{4/5}) and Morse signatures. Each orbit is labeled with its signature \texorpdfstring{$(n_+, n_-, n_0)$}{(n+, n-, n0)} and rotation number \texorpdfstring{$r/s$}{r/s}. Star patterns (rotation numbers \texorpdfstring{$2/5$}{2/5}, \texorpdfstring{$3/5$}{3/5}) are prominently represented.}
+\caption{A selection of periodic billiard orbits with $N=5$ bounces in the $L^3$ ball, showing various rotation numbers ($1/5$, $2/5$, $3/5$, $4/5$) and Morse signatures. Each orbit is labeled with its signature $(n_+, n_-, n_0)$ and rotation number $r/s$. Star patterns (rotation numbers $2/5$, $3/5$) are prominently represented.}
 \label{fig:grid_orbits}
 \end{figure}
 
@@ -182,7 +184,7 @@ Figure~\ref{fig:grid_orbits} illustrates the diversity of periodic orbits found 
 We provide three main utilities:
 
 \begin{description}
-\item[\texttt{orbit\_finder.py}] Main computation engine using JAX\cite{jax2018github} for finding orbits
+\item[\texttt{orbit\_finder.py}] Main computation engine using JAX for finding orbits
 \item[\texttt{verify\_orbit.py}] Standalone verification tool using pure NumPy
 \item[\texttt{plot\_orbit.py}] Visualization tool with flexible input options
 \end{description}
@@ -212,6 +214,9 @@ python plot_orbit.py --csv p3.0_N5_orbits.csv --row 1
 
 We have presented an efficient computational method for finding periodic billiard orbits in $L^p$ balls, with rigorous verification via Smale's criterion. The observed patterns in signatures and rotation numbers reveal rich mathematical structure worthy of further theoretical investigation.
 
+\section*{References}
+\bibliographystyle{plain}
+\bibliography{references}
 
 \appendix
 
@@ -237,6 +242,5 @@ We have presented an efficient computational method for finding periodic billiar
 \RETURN Unique certified orbits
 \end{algorithmic}
 \end{algorithm}
-\bibliographystyle{alpha}
-\bibliography{references}
+
 \end{document}
